@@ -1,8 +1,4 @@
 import pandas as pd
-# import numpy as np
-# import matplotlib.pyplot as plt
-# from unicodedata import normalize
-
 import requests
 import json
 
@@ -20,7 +16,7 @@ hed = {
     'Origin': 'https://app.tecnofit.com.br',
     'Connection': 'keep-alive',
     'Referer': 'https://app.tecnofit.com.br/relatorio/statuscliente',
-    'Cookie': '_ga=GA1.3.2042638173.1650650835; _hjSessionUser_1292435=eyJpZCI6ImIwN2RjZDE0LTk4OTAtNTQxZC04NDQ1LWM4YjMxNzRmNWNiYiIsImNyZWF0ZWQiOjE2NTA2NTA4MzUwMjgsImV4aXN0aW5nIjp0cnVlfQ==; NPS_3add8e44_last_seen=1650650854080; _fw_crm_v=4deea7cd-78f6-4234-82a1-c5448fea63c7; _gcl_au=1.1.1634836036.1652110427; _ga_1HNXM65J3Z=GS1.1.1652110427.1.0.1652110441.46; _ga_DM66BBR3WS=GS1.1.1652110427.1.0.1652110441.0; _uetsid=6b49ab30cfad11ec815655ccf127f051; _uetvid=6b49b590cfad11eca387fb4100a9d87f; _fbp=fb.2.1652110429214.473566132; __hstc=217517065.3e170c767eedd704aadd0cd9b9843e98.1652110430171.1652110430171.1652110430171.1; hubspotutk=3e170c767eedd704aadd0cd9b9843e98; __hssrc=1; messagesUtk=c77a71358d954f048b46f5b4f09b25d1; PHPSESSID=slnsom5slfplm5lf1qekb3gu31; _gid=GA1.3.516891763.1652110446; NPS_3add8e44_throttle=1652153653333; _gat=1; _gat_UA-52493754-1=1; _hjAbsoluteSessionInProgress=0',
+    'Cookie': '_ga=GA1.3.2042638173.1650650835; _hjSessionUser_1292435=eyJpZCI6ImIwN2RjZDE0LTk4OTAtNTQxZC04NDQ1LWM4YjMxNzRmNWNiYiIsImNyZWF0ZWQiOjE2NTA2NTA4MzUwMjgsImV4aXN0aW5nIjp0cnVlfQ==; NPS_3add8e44_last_seen=1650650854080; _fw_crm_v=4deea7cd-78f6-4234-82a1-c5448fea63c7; _gcl_au=1.1.1634836036.1652110427; _ga_1HNXM65J3Z=GS1.1.1652110427.1.0.1652110441.46; _ga_DM66BBR3WS=GS1.1.1652110427.1.0.1652110441.0; _uetvid=6b49b590cfad11eca387fb4100a9d87f; _fbp=fb.2.1652110429214.473566132; __hstc=217517065.3e170c767eedd704aadd0cd9b9843e98.1652110430171.1652110430171.1652110430171.1; hubspotutk=3e170c767eedd704aadd0cd9b9843e98; messagesUtk=c77a71358d954f048b46f5b4f09b25d1; PHPSESSID=9bm4ceur1ag27ls0df7256ajmg; _gid=GA1.3.924003814.1655133721; _gat=1; _hjIncludedInSessionSample=0; _hjSession_1292435=eyJpZCI6ImI5ODQyOTgyLWRkZmMtNGZmZS05NjQ5LWRmZTQ3OWJmZTAzZiIsImNyZWF0ZWQiOjE2NTUxMzM3MjEyMTIsImluU2FtcGxlIjpmYWxzZX0=; _hjAbsoluteSessionInProgress=1; _gat_UA-52493754-1=1; NPS_3add8e44_throttle=1655176943021',
     'Sec-Fetch-Dest': 'empty',
     'Sec-Fetch-Mode': 'cors',
     'Sec-Fetch-Site': 'same-origin',
@@ -32,15 +28,21 @@ url = 'https://app.tecnofit.com.br/relatorio/statuscliente/listar'
 
 r = requests.post(url, json=data, headers=hed)
 
-# table_MN = pd.read_html('https://en.wikipedia.org/wiki/Minnesota', match='Election results from statewide races')
 table_MN = pd.read_html(r.text)
 
-df = table_MN[0]
+resultado = table_MN[0].to_json(orient="split")
+json_data = json.loads(resultado)
 
-result = df.to_json(orient="split")
-parsed = json.loads(result)
-print(json.dumps(parsed, indent=4))
+for lead in json_data['data']:
+    codigo = lead[1]
+    cliente = lead[2]
+    nascimento = lead[3]
+    sexo = lead[4]
+    consultor = lead[5]
+    professor = lead[6]
+    ultimo_status = lead[7]
+    status_cliente = lead[8]
+    email = lead[9]
+    contato = lead[10]
 
-# print(df.head())
-# print(df.info())
-# print(df['Status Cliente'])
+    print(contato)
