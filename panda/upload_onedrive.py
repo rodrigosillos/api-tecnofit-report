@@ -9,7 +9,7 @@ data = {'grant_type':"client_credentials",
         'client_id':'e8d849c6-d00b-4c39-bcd3-c953aad56d04', 
         'client_secret':'749fa3cf-2a16-41cb-a5e9-8a39cb18afbc'} 
 
-URL = "https://login.windows.net/AA7B6120B5A9AD93!1499/oauth2/token?api-version=1.0"
+URL = "https://login.windows.net/f8cdef31-a31e-4b4a-93e4-5f571e91255a/oauth2/token?api-version=1.0"
 r = requests.post(url = URL, data = data) 
 j = json.loads(r.text)
 TOKEN = j["access_token"]
