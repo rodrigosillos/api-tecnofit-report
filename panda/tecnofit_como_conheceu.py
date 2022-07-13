@@ -41,6 +41,15 @@ for unidade in array_unidades:
 
     set_header_auth(url_auth, data_auth)
 
+    # data = {
+    #     'data_inicial': '01/07/2022',
+    #     'data_final': '31/07/2022',
+    #     'tipo_pessoa_id[]': '3',
+    #     'como_conheceu_id[]': '20370',
+    #     'status_pessoa_id[]	': '1',
+    #     'grafico': '1',
+    # }
+
     data = {
         'data_inicial' : '01/07/2022',
         'data_final' : '31/07/2022',
