@@ -1,8 +1,8 @@
 import pandas as pd
 import json
 import xlsxwriter
-from request_headers import set_header
-from request_headers_auth import set_header_auth
+from headers.request_headers import set_header
+from headers.request_headers_auth import set_header_auth
 
 array_unidades = [
     ['58D7B066A6BAD7C3F84CBF88770F5CE05E1BFC07A8ED6F6A574FD63A0D86FF32', '4003', 'Cristo'],
@@ -18,25 +18,20 @@ array_unidades = [
     ['07f43a2870ada97df99c667a1e7734ceb4e33c22f1ed34424e745b404d069894', '56711', 'Guaiba'],
 ]
 
-workbook = xlsxwriter.Workbook('Tecnofit_Clientes_por_Status.xlsx')
+workbook = xlsxwriter.Workbook('Tecnofit_Como_Conheceu.xlsx')
 worksheet = workbook.add_worksheet()
 
-worksheet.write('A1', 'Codigo')
-worksheet.write('B1', 'Cliente')
-worksheet.write('C1', 'Nascimento')
-worksheet.write('D1', 'Sexo')
-worksheet.write('E1', 'Consultor')
-worksheet.write('F1', 'Professor')
-worksheet.write('G1', 'Último Status')
-worksheet.write('H1', 'Status Cliente')
-worksheet.write('I1', 'E-mail')
-worksheet.write('J1', 'Contato')
-worksheet.write('L1', 'Unidade')
+worksheet.write('A1', 'ID')
+worksheet.write('B1', 'Nome')
+worksheet.write('C1', 'Tipo')
+worksheet.write('D1', 'Data Cadastro')
+worksheet.write('E1', 'Como Conheceu')
+worksheet.write('F1', 'Unidade')
 
 campo = 1
 
 for unidade in array_unidades:
-
+    
     data_auth = {
         "token": unidade[0],
         "goto": "https://api.tecnofit.com.br/ng/dashboard"
@@ -46,39 +41,40 @@ for unidade in array_unidades:
 
     set_header_auth(url_auth, data_auth)
 
+    # data = {
+    #     'data_inicial': '01/07/2022',
+    #     'data_final': '31/07/2022',
+    #     'tipo_pessoa_id[]': '3',
+    #     'como_conheceu_id[]': '20370',
+    #     'status_pessoa_id[]	': '1',
+    #     'grafico': '1',
+    # }
+
     data = {
-        'mostrar_contato' : 'on'
-    
+        'data_inicial': '01/07/2022',
+        'data_final': '31/07/2022',
+        'status_pessoa_id[]': '1'
     }
-    url = 'https://app.tecnofit.com.br/relatorio/statuscliente/listar'
+
+    url = 'https://app.tecnofit.com.br/relatorio/comoConheceu/listar'
 
     table_MN = pd.read_html(set_header(url, data).text)
     json_data = json.loads(table_MN[0].to_json(orient="split"))
 
     for lead in json_data['data']:
-        codigo = lead[1]
-        cliente = lead[2]
-        nascimento = lead[3]
-        sexo = lead[4]
-        consultor = lead[5]
-        professor = lead[6]
-        ultimo_status = lead[7]
-        status_cliente = lead[8]
-        email = lead[9]
-        contato = lead[10]
+        id = lead[0]
+        nome = lead[1]
+        tipo = lead[2]
+        data_cadastro = lead[3]
+        como_conheceu = lead[4]
 
         campo += 1
 
-        worksheet.write('A' + str(campo), codigo)
-        worksheet.write('B' + str(campo), cliente)
-        worksheet.write('C' + str(campo), nascimento)
-        worksheet.write('D' + str(campo), sexo)
-        worksheet.write('E' + str(campo), consultor)
-        worksheet.write('F' + str(campo), professor)
-        worksheet.write('G' + str(campo), ultimo_status)
-        worksheet.write('H' + str(campo), status_cliente)
-        worksheet.write('I' + str(campo), email)
-        worksheet.write('J' + str(campo), contato)
-        worksheet.write('L' + str(campo), unidade[2])
+        worksheet.write('A' + str(campo), id)
+        worksheet.write('B' + str(campo), nome)
+        worksheet.write('C' + str(campo), tipo)
+        worksheet.write('D' + str(campo), data_cadastro)
+        worksheet.write('E' + str(campo), como_conheceu)
+        worksheet.write('F' + str(campo), unidade[2])
 
 workbook.close()

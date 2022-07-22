@@ -1,8 +1,8 @@
 import pandas as pd
 import json
 import xlsxwriter
-from request_headers import set_header
-from request_headers_auth import set_header_auth
+from headers.request_headers import set_header
+from headers.request_headers_auth import set_header_auth
 
 array_unidades = [
     ['58D7B066A6BAD7C3F84CBF88770F5CE05E1BFC07A8ED6F6A574FD63A0D86FF32', '4003', 'Cristo'],

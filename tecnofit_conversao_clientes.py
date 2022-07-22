@@ -1,8 +1,8 @@
 import pandas as pd
 import json
 import xlsxwriter
-from request_headers import set_header
-from request_headers_auth import set_header_auth
+from headers.request_headers import set_header
+from headers.request_headers_auth import set_header_auth
 
 array_unidades = [
     ['58D7B066A6BAD7C3F84CBF88770F5CE05E1BFC07A8ED6F6A574FD63A0D86FF32', '4003', 'Cristo'],
@@ -45,8 +45,8 @@ for unidade in array_unidades:
     set_header_auth(url_auth, data_auth)
 
     data = {
-        'data_inicial' : '01/07/2022',
-        'data_final' : '30/07/2022',
+        'data_inicial' : '01/01/2015',
+        'data_final' : '31/07/2022',
     }
 
     url = 'https://app.tecnofit.com.br/relatorio/novasMatriculas/listar'
