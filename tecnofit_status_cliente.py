@@ -37,7 +37,7 @@ for unidade in array_unidades:
         'sexo[]' : '',
         'mostrar_contato' : 'on',
         'data_inicial' : '01/01/2015',
-        'data_final' : '31/08/2022',
+        'data_final' : '30/10/2025',
     }
     url = 'https://app.tecnofit.com.br/relatorio/statuscliente/listar'
 
